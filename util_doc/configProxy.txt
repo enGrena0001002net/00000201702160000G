@@ -1,0 +1,33 @@
+--configurar o proxy no gitHub
+
+git config --global http.proxy meu.servidor:8080
+git config --global http.proxy utilizador:password@meu.servidor:8080
+
+
+-------------------------------------------------------------------
+
+Um dos primeiros desafios que tive ao utilizar do Git num ambiente empresarial, foi conseguir aceder a repositórios remotos, que estavam alojados em servidores fora da empresa, como por exemplo, no GitHub. A rede da empresa onde eu estava a utilizar o Git só permitia o acesso a internet através de um servidor proxy que fornecia acesso a internet via Http (80) e Https (443), e todas as outras portas estavam bloqueadas.
+
+
+Imaginei logo que fosse possível configurar o proxy através de algum parâmetro de configuração do Git e, após alguma leitura da documentação de ajuda (git config –help), encontrei o parâmetro global http.proxy onde podemos definir o endereço do servidor proxy que deve ser utilizado pelo Git para efectuar requisições Http. Por exemplo, para utilizar um servidor proxy “meu.servidor” que fornece acesso a internet através da porta 8080:
+
+git config --global http.proxy meu.servidor:8080
+E ainda, se fosse preciso definir o user/password de autenticação para o proxy (não era o meu caso):
+
+git config --global http.proxy utilizador:password@meu.servidor:8080
+Apenas esse parâmetro de configuração já seria suficiente para conseguir aceder repositórios remotos via Http através do servidor proxy, no entanto o GitHub utiliza o protocolo Https para efectuar pull e push e, por padrão, numa comunicação Https o Git efectua a validação do certificado digital e, no caso do GitHub, essa validação nem sempre funciona e o certificado às vezes fica num estado inválido, por alguma razão, o que fazia com que as minhas tentativas de acesso aos repositórios falhassem de vez em quando.
+
+Com mais alguma leitura da documentação do Git, encontrei o parâmetro global http.sslverify que serve justamente para habilitar (true) ou desabilitar (false) a validação do certificado digital, e era o que me estava a faltar:
+
+git config --global http.sslverify false
+E assim, com a configuração destes dois parâmetros, passei a conseguir aceder repositórios remotos alojados no GitHub e em outros serviços de alojamento, através do servidor proxy da empresa.
+
+
+
+Por serem parâmetros globais, todos os projectos Git passam a utilizar estas definições de proxy para aceder os projectos via Http. Para voltar ao normal, ou seja, remover estes parâmetros configuração e deixar de utilizar o servidor proxy, basta executar novamente o git config, sem informar o valor dos parâmetros e com a opção –unset. Por exemplo:
+
+git config --global --unset http.proxy
+git config --global --unset http.sslverify
+Nota: Pode ser necessário alterar a Url que aponta para o repositório remoto (ex: origin) para utilizar o protocolo Http/Https, caso esteja a utilizar outro protocolo:
+
+git remote set-url origin https://empresa.com/Projectos/MeuProjecto.git
