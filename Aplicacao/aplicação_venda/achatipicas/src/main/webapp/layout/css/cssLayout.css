@@ -1,0 +1,215 @@
+/* 
+    Document   : cssLayout
+    Created on : 03/04/2011, 09:32:00
+    Author     : Marcus Vinicius Silva
+    Description:
+
+*/
+
+html, body {min-height:100%;}
+body {
+    margin:0;
+    padding:0;    
+    color:#666;
+
+
+    font-family: Arial, Helvetica, Verdana, sans-serif;
+    font-size: 10px;
+    background-image: url(../imagens/Fontes/bd_final.png);
+    background-repeat: repeat-x;
+}
+
+#topo_menu {
+
+
+    /*width:1012px;*/
+    height:41px;
+    max-height: 50px;
+    width: 100%;
+
+    /* background-image: url(../imagens/cabecalho/Sombra_topo_verde.jpg);   */
+    background-image: url(../imagens/cabecalho/headerBg.png); 
+    /* background-repeat: repeat-x; */
+    padding-top: 18px;
+
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+#topo {
+    /*
+    background-image: url(../imagens/cabecalho/Sombra_topo_verde.jpg);   
+    background-repeat: repeat-x;
+    */
+
+
+    /*width:1012px;*/
+    margin:0 auto;
+    height:40px;
+    width: 1012px;   
+    background-color: lightsteelblue; 
+
+    border-right-style: solid;
+    border-left-style: solid;
+    border-bottom-style: hidden;
+    border-top-style: solid;
+    border-right-color: #666666;
+    border-left-color: #666666;
+    border-bottom-color: #666666;
+    border-top-color: #666666;
+    border-right-width: 1px;
+    border-left-width: 1px;
+    border-top-width: 1px;
+}
+
+#intermediario_topo{
+    width:1008px;        
+    margin:0 auto;
+    /*text-align:left;*/
+    height:38px; 
+    background-color: #f5f8f9;     
+    padding-top: 2px;
+}
+
+#tudo {
+
+    width:100%;
+    /*position:relative;  */
+
+    background-image: url(../../imagens/sombras.png);
+    background-repeat: repeat-y;
+    text-align:left;  
+    padding-bottom:0px;    
+    margin:0 auto;
+
+
+
+
+}
+
+* html #tudo {height: 100%;}
+
+#conteudo {
+    width:1012px;
+    /*position:relative;  */
+    margin:0 auto;
+    text-align:left;
+
+    min-height:480px;
+    padding-bottom:0px; 
+    background-color: #f5f8f9;
+
+    border-right-style: solid;
+    border-left-style: solid;
+    border-bottom-style: solid;
+    border-top-style: hidden;
+    border-right-color: #666666;
+    border-left-color: #666666;
+    border-bottom-color: #666666;
+    border-top-color: #666666;
+    border-right-width: 1px;
+    border-left-width: 1px;
+    border-bottom-width: 1px;
+    border-top-width: 1px;
+
+
+}
+
+#intermediario{
+    width:1012px;
+    position:relative;  /*Contexto de posicionamento */    
+    margin:0 auto;
+    text-align:left;
+    height:10px;    
+    padding-bottom:6px;
+}
+
+
+
+
+#auxiliar1 {    
+    width:160px;    
+    float:left;
+    padding-left:2px; padding-right:1px; padding-bottom:1px;    
+    /*font-size: 11px;*/
+    font-family: Arial,Helvetica,sans-serif;
+
+
+}
+#gridcell{
+    
+   font-size: 10px; 
+    
+}
+#principal {
+     
+    float:center;
+    font-size: 10px;
+    padding-top:1px; padding-left:2px; padding-right:1px; padding-bottom:1px;
+    text-align:justify;
+}
+
+#principal_grande {   
+    width:846px;
+    float:left;
+    /*padding-left:1px;*/
+    padding-bottom:1px;
+    text-align:justify;
+
+}
+
+#auxiliar2 {
+    width:200px;
+    float:right;
+    padding-top:1px; padding-left:1px; padding-right:2px; padding-bottom:1px;
+}
+
+#rodape {    
+    width:100%;
+    height:100px;
+    clear: both;    
+    text-align:center;
+    padding-top:2px;
+    /* background-image: url(../../imagens/bg-verde.png);
+    background-repeat: repeat-x;
+    background-color: #ddd195; */
+    font-size: 12px;
+}
+
+#rodape p {
+    margin:0;
+    font-weight:bold;
+    color:#060;
+
+}
+
+.clear {clear:both;}
+
+#nav li.um {
+    margin-bottom:8px;
+    text-align:center;
+}
+.ca-ie {filter: alpha(opacity=85);
+        opacity: 0.85;
+        background-color:#666666;
+        width: 600px;        
+        height:30px;
+        color: #ffffff;
+        font-family: Arial, Helvetica, Verdana, sans-serif;
+        font-size: 10px;
+        font-style: normal;
+        position:absolute;
+       
+    text-align: center;
+    
+    vertical-align: baseline;
+}
+.ui-widget {
+	font-size: 10px !important;
+}
+.ui-state-default {
+font-size: 10px !important; 
+}
+.ui-widget-content{
+font-size: 10px !important; 
+}

@@ -1,0 +1,168 @@
+<!--<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <ui:include src="layout/includ/cssInclud.xhtml"/>
+        <title>Cadastro de Lojas</title>
+    </h:head>
+    <h:body>-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">  
+    <h:form id="frmTabela">
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+        <p:panel header="Lojas - Cadastro">
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Nome:"/>
+                <p:inputText value="#{lojaV.lojaNome}" converter="toUpperCaseConverter">
+                    <f:ajax event="blur" render="@this" />
+                </p:inputText>
+                <p:outputLabel value="CEP:"/>
+                <p:inputMask mask="99999-99" value="#{lojaV.lojaEndCep}" />
+                <p:outputLabel value="ATIVO:"/>
+                <p:selectOneRadio  value="#{lojaV.lojaAtiva}">
+                    <f:selectItem itemLabel="Ambos" itemValue="#{null}"/>
+                    <f:selectItem itemLabel="Sim" itemValue="#{true}"/>
+                    <f:selectItem itemLabel="Não" itemValue="#{false}"/>
+
+                </p:selectOneRadio>
+                <p:outputLabel value="Delivery"/>
+                <p:selectOneRadio  value="#{lojaV.lojaDeliv}">
+                    <f:selectItem itemLabel="Ambos" itemValue="#{null}"/>
+                    <f:selectItem itemLabel="Sim" itemValue="#{true}"/>
+                    <f:selectItem itemLabel="Não" itemValue="#{false}"/>
+                </p:selectOneRadio>
+
+
+            </h:panelGrid>
+
+
+
+            <p:separator/>
+
+            <p:commandButton value="Pesquisar" actionListener="#{lojaV.pesquisar()}"  update="@form" icon="ui-icon-search" />
+            <p:commandButton value="Limpar" actionListener="#{lojaV.limparPesquisa()}"  update="@form" icon="ui-icon-cancel" />
+
+            <p:commandButton value="Novo" style="float: right;" actionListener="#{lojaV.novo()}" update=":frmCadastro" onclick="PF('dlCadastro').show();" icon="ui-icon-document" />
+
+        </p:panel>
+        <br/>
+
+        <p:fieldset legend="Lista de Lojas" style="margin-bottom:20px">
+
+
+            <p:dataTable value="#{lojaV.listarLoja}" var="item" rows="10"
+                         paginator="true" paginatorPosition="bottom"  >
+                <p:column style="width:70px;">
+                    <f:facet name="header">
+                        <h:outputText value="Código"/>
+                    </f:facet>
+                    <h:outputText value="#{item.lojaCod}"/>             
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Nome"/>
+                    </f:facet>
+                    <h:outputText value="#{ item.lojaNome}"/>
+                </p:column>
+                <p:column style="width:80px;">
+                    <f:facet name="header">
+                        <h:outputText value="Fone"/>
+                    </f:facet>
+                    <h:outputText value="#{item.lojaFone}"/>
+                </p:column>
+                <p:column style="width:80px;">
+                    <f:facet name="header">
+                        <h:outputText value="CEP"/>
+                    </f:facet>
+                    <h:outputText value="#{item.lojaEndCep}"/>
+                </p:column>
+                <p:column headerText="Delivery" style="width:70px;">
+                    <p:outputLabel value="#{utilitarios.retornaSimNao(item.lojaDeliv)}" />                       
+                </p:column>
+                <p:column headerText="Ativa" style="width:70px;">
+                    <p:outputLabel value="#{utilitarios.retornaSimNao(item.lojaAtiva)}" />                       
+                </p:column>
+                <p:column style="width:80px;" > 
+                    <p:commandButton value="Ativar" update="@form" actionListener="#{lojaV.ativar(item)}" rendered="#{item.lojaAtiva==false}" icon="ui-icon-unlocked" />
+                    <p:commandButton value="Desativar" update="@form" actionListener="#{lojaV.desativar(item)}" rendered="#{item.lojaAtiva==true}"  icon="ui-icon-locked" />
+                </p:column >
+                <p:column  style="width:70px;">
+                    <p:commandButton  value="Alterar" update="@form  :frmCadastro" actionListener="#{lojaV.receberLoja(item)}" onclick="PF('dlCadastro').show();" icon="ui-icon-pencil" disabled="#{!item.lojaAtiva}" />
+                </p:column>
+                <p:column style="width:70px;" > 
+                    <p:commandButton value="Produto" action="produtoCadastro.xhtml"  onsuccess="true"   actionListener="#{produtoCadastroV.recebLoja(item)}"  icon="ui-icon-gear" disabled="#{!item.lojaAtiva}" >
+                        <!--<f:param value="# {item}"  transient="# {produtoCadastroV.frmLoja}"/>-->
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+
+
+
+
+        </p:fieldset>
+    </h:form>
+    <p:dialog widgetVar="dlCadastro"  header="Cadasto/Edit- Lojas" modal="true" >
+
+        <h:form id="frmCadastro" >
+            <p:panel >
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Código:"/>
+                    <p:inputText value="#{lojaV.frmLoja.lojaCod}" disabled="true" />
+                    <h:outputLabel value="Nome:"/>
+                    <p:inputText value="#{lojaV.frmLoja.lojaNome}"  required="true" requiredMessage="Nessesário prencher campo  Nome  " converter="toUpperCaseConverter">
+                        <f:ajax event="blur" render="@this" />
+                    </p:inputText>
+                    <h:outputLabel value="Latitude:"/>
+                    <p:inputText value="#{lojaV.frmLoja.lojaLocLatt}"  />
+                    <h:outputLabel value="Longitude:"/>
+                    <p:inputText value="#{lojaV.frmLoja.lojaLocLong}"  />
+                    <h:outputLabel value="CEP:"/>
+                    <p:inputMask mask="99999-999" value="#{lojaV.frmLoja.lojaEndCep}" required="true" requiredMessage="Nessesário prencher campo CEP " />
+                    <p:outputLabel value="Endereço:"/>
+                    <p:inputTextarea value="#{lojaV.frmLoja.lojaEndNum}"/>
+                    <p:outputLabel value="Telefone:"/>
+                    <p:selectOneRadio id="ps2" value="#{lojaV.fone}">
+                        <f:selectItem itemLabel="Residencial" itemValue="#{true}"/>
+                        <f:selectItem itemLabel="Celular" itemValue="#{false}"/>
+                        <p:ajax process="ps2" event="change" update="teste"/>
+                    </p:selectOneRadio>
+
+                    <h:outputLabel value="Telefone/celular:"/>
+                    <h:panelGroup id="teste">
+                        <p:inputMask id="fone" mask="(99)9999-9999" value="#{lojaV.frmLoja.lojaFone}" rendered="#{lojaV.fone==true}"   />
+                        <p:inputMask id="cel" mask="(99)99999-9999" value="#{lojaV.frmLoja.lojaFone}" rendered="#{lojaV.fone==false}"   />
+                    </h:panelGroup>
+                    <p:outputLabel value="Delivery"/>
+                    <p:selectOneRadio  value="#{lojaV.frmLoja.lojaDeliv}">
+                        <f:selectItem itemLabel="Sim" itemValue="#{true}"/>
+                        <f:selectItem itemLabel="Não" itemValue="#{false}"/>
+                    </p:selectOneRadio>
+
+
+                </h:panelGrid>
+                <p:separator/>
+                <p:commandButton value="Salvar" actionListener="#{lojaV.salvar()}" update="@form :frmTabela"  onclick="PF('dlCadastro').hide();" icon="ui-icon-disk"  />
+                <p:commandButton value="Cancelar" actionListener="#{lojaV.receberLoja(null)}" immediate="true" update="@form :frmTabela" onclick="PF('dlCadastro').hide();" icon="ui-icon-circle-close"  />
+            </p:panel>
+
+        </h:form>
+    </p:dialog>
+
+
+
+    <!--    </h:body>
+    
+    
+    </html>
+    
+    -->
+</ui:composition>

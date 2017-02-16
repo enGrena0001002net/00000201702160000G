@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">  
+    <!--    <h:head>
+            <ui:include src="layout/includ/cssInclud.xhtml"/>
+            <title>Cadastro de Ação</title>
+        </h:head>-->
+
+    <!--    <h:body>-->
+    <h:form id="frmTabela">
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+        <p:panel header="Ação - Cadastro">
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Nome:"/>
+                <p:inputText value="#{acaoV.codigoPesquiosa}" converter="toUpperCaseConverter">
+                    <f:ajax event="blur" render="@this" />
+                </p:inputText>
+            </h:panelGrid>
+
+
+            <p:separator/>
+
+            <p:commandButton value="Pesquisar" actionListener="#{acaoV.pesquisar()}"  update="@form" icon="ui-icon-search" />
+            <p:commandButton value="Limpar" actionListener="#{acaoV.limparPesquisa()}"  update="@form" icon="ui-icon-cancel" />
+
+            <p:commandButton value="Novo" style="float: right;" actionListener="#{acaoV.novo()}" update=":frmCadastro" onclick="PF('dlCadastro').show();" icon="ui-icon-document" />
+
+        </p:panel>
+        <br/>
+
+        <p:fieldset legend="Lista de Ações" style="margin-bottom:20px">
+
+
+            <p:dataTable value="#{acaoV.listarAcao}" var="item" rows="10"
+                         paginator="true" paginatorPosition="bottom"  >
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Código"/>
+                    </f:facet>
+                    <h:outputText value="#{item.acaoCod}"/>             
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Nome"/>
+                    </f:facet>
+                    <h:outputText value="#{ item.acaoNome}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Descrição"/>
+                    </f:facet>
+                    <h:outputText value="#{item.acaoDescricao}"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Alterar" update="@form  :frmCadastro" actionListener="#{acaoV.receberAcao(item)}" onclick="PF('dlCadastro').show();" icon="ui-icon-pencil" />
+                </p:column>
+            </p:dataTable>
+
+
+
+
+
+        </p:fieldset>
+    </h:form>
+    <p:dialog widgetVar="dlCadastro"  header="Cadasto/Edit- Ação" modal="true" >
+
+        <h:form id="frmCadastro" >
+            <p:panel >
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Código:"/>
+                    <p:inputText value="#{acaoV.frmAcao.acaoCod}" disabled="true" />
+                    <h:outputLabel value="Nome:"/>
+                    <p:inputText value="#{acaoV.frmAcao.acaoNome}"  required="true" requiredMessage="Nessesário prencher campo  Nome  " converter="toUpperCaseConverter">
+                        <f:ajax event="blur" render="@this" />
+                    </p:inputText>
+                    <h:outputLabel value="Descrição:"/>
+                    <p:inputText value="#{acaoV.frmAcao.acaoDescricao}" required="true" requiredMessage="Nessesário prencher campo Descrição " />
+
+
+                </h:panelGrid>
+                <p:separator/>
+                <p:commandButton value="Salvar" actionListener="#{acaoV.salvar()}" update="@form :frmTabela"  onclick="PF('dlCadastro').hide();" icon="ui-icon-disk"  />
+                <p:commandButton value="Cancelar" actionListener="#{acaoV.receberAcao(null)}" immediate="true" update="@form :frmTabela" onclick="PF('dlCadastro').hide();" icon="ui-icon-circle-close"  />
+            </p:panel>
+
+        </h:form>
+    </p:dialog>
+
+
+
+    <!--    </h:body>
+    
+    
+    </html>-->
+</ui:composition>
+
+

@@ -1,0 +1,753 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel>
+<schema name="public" protected="true" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<database name="BD_MASTER" encoding="UTF8">
+	<role name="postgres"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<table name="acao" gen-alter-cmds="true">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2415.93" y="766"/>
+	<column name="cod_aco" not-null="true">
+		<type name="character" length="5"/>
+	</column>
+	<column name="cod_pco">
+		<type name="character" length="8"/>
+	</column>
+	<column name="cod_pfl">
+		<type name="character" length="8"/>
+	</column>
+	<column name="dsc_aco">
+		<type name="character varying" length="250"/>
+	</column>
+	<column name="atv_aco">
+		<type name="boolean"/>
+	</column>
+<constraint name="acao_pk" type="pk-constr" factor="100" table="public.acao">
+	<columns names="cod_aco" ref-type="src-columns"/>
+</constraint>
+</table>
+
+<sequence name="empresa_cod_emp_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="empresa">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="480.429" y="0"/>
+	<column name="cod_emp" not-null="true" default-value="nextval('empresa_cod_emp_seq'::regclass)">
+		<type name="integer"/>
+	</column>
+	<column name="cod_tp_empresa">
+		<type name="char"/>
+		<comment><![CDATA[M para Matriz e F para Filial]]></comment>
+	</column>
+	<column name="nm_rz_social_emp" not-null="true">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="nm_fan_emp">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="nr_cnpj_emp">
+		<type name="character varying" length="18"/>
+	</column>
+	<column name="dsc_emp">
+		<type name="character varying" length="500"/>
+	</column>
+	<column name="cod_usu" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="dt_atu_usu">
+		<type name="date"/>
+	</column>
+	<column name="dt_ins_usu" not-null="true">
+		<type name="date"/>
+	</column>
+	<constraint name="empresa_pk" type="pk-constr" factor="100" table="public.empresa">
+		<columns names="cod_emp" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="endereco_cod_end_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="endereco">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="496.666" y="575.404"/>
+	<column name="cod_end" not-null="true" default-value="nextval('endereco_cod_end_seq'::regclass)">
+		<type name="integer"/>
+	</column>
+	<column name="cid_end">
+		<type name="character varying" length="100"/>
+	</column>
+	<column name="uf_end">
+		<type name="character" length="2"/>
+	</column>
+	<column name="cep_end">
+		<type name="character varying" length="11"/>
+	</column>
+	<column name="rua_end">
+		<type name="character varying" length="800"/>
+	</column>
+	<column name="bro_end">
+		<type name="character varying" length="100"/>
+	</column>
+	<column name="cmp_end">
+		<type name="character varying" length="150"/>
+	</column>
+	<column name="nr_end">
+		<type name="integer"/>
+	</column>
+	<constraint name="endereco_pkey" type="pk-constr" factor="100" table="public.endereco">
+		<columns names="cod_end" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="evento_cod_evt_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="evento">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="0" y="1256.5"/>
+	<column name="cod_evt" not-null="true" default-value="nextval('evento_cod_evt_seq'::regclass)">
+		<type name="integer"/>
+	</column>
+	<column name="cod_usu" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="nm_evt" not-null="true">
+		<type name="character varying" length="500"/>
+	</column>
+	<column name="dsc_evt">
+		<type name="character varying" length="1000"/>
+	</column>
+	<column name="dt_ins_evt">
+		<type name="date"/>
+	</column>
+	<column name="dt_atu_evt">
+		<type name="date"/>
+	</column>
+	<constraint name="evento_pk" type="pk-constr" factor="100" table="public.evento">
+		<columns names="cod_evt" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="funcionario_cod_fun_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="funcionario">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="0" y="284.5"/>
+	<column name="cod_fun" not-null="true" default-value="nextval('funcionario_cod_fun_seq'::regclass)">
+		<type name="integer"/>
+	</column>
+	<column name="cod_end">
+		<type name="integer"/>
+	</column>
+	<column name="cod_emp" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="cod_fil">
+		<type name="integer"/>
+	</column>
+	<column name="nm_fun">
+		<type name="character varying" length="500"/>
+	</column>
+	<column name="cpf_fun">
+		<type name="character varying" length="18"/>
+	</column>
+	<column name="dt_ins_fun">
+		<type name="date"/>
+	</column>
+	<column name="dt_alt_fun">
+		<type name="date"/>
+	</column>
+	<constraint name="funcionario_pk" type="pk-constr" factor="100" table="public.funcionario">
+		<columns names="cod_fun" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="lote_cod_lte_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="lote">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="0" y="956.9"/>
+	<column name="cod_lte" not-null="true" default-value="nextval('lote_cod_lte_seq'::regclass)">
+		<type name="integer"/>
+	</column>
+	<column name="cod_usu" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="cod_evt" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="nm_lte">
+		<type name="character varying" length="500"/>
+	</column>
+	<column name="dt_ins_lte">
+		<type name="date"/>
+	</column>
+	<column name="dt_alt_lte">
+		<type name="date"/>
+	</column>
+	<constraint name="lote_pk" type="pk-constr" factor="100" table="public.lote">
+		<columns names="cod_lte" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="perfil">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1997.93" y="308.4"/>
+	<column name="cod_pfl" not-null="true">
+		<type name="character" length="8"/>
+	</column>
+	<column name="nm_pfl">
+		<type name="character varying" length="150"/>
+	</column>
+	<column name="dsc_pfl">
+		<type name="character varying" length="500"/>
+	</column>
+	<column name="dt_ins_pfl">
+		<type name="date"/>
+	</column>
+	<column name="dt_atu_pfl">
+		<type name="date"/>
+	</column>
+	<constraint name="perfil_pk" type="pk-constr" factor="100" table="public.perfil">
+		<columns names="cod_pfl" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="perfil_processo">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2443.93" y="332.4"/>
+	<column name="cod_pfl" not-null="true">
+		<type name="character" length="8"/>
+	</column>
+	<column name="cod_pco" not-null="true">
+		<type name="character" length="8"/>
+	</column>
+	<constraint name="perfil_processo_pk" type="pk-constr" factor="100" table="public.perfil_processo">
+		<columns names="cod_pfl,cod_pco" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="perfil_usuario">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1435.86" y="300.305"/>
+	<column name="cod_usu" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="cod_pfl" not-null="true">
+		<type name="character" length="8"/>
+	</column>
+	<column name="cod_emp" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="cof_fil" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="dt_ini">
+		<type name="date"/>
+	</column>
+	<column name="dt_fim">
+		<type name="date"/>
+	</column>
+	<constraint name="perfil_usuario_pk" type="pk-constr" factor="100" table="public.perfil_usuario">
+		<columns names="cod_usu,cod_pfl" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="processo">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2845.43" y="291.757"/>
+	<column name="cod_pco" not-null="true">
+		<type name="character" length="8"/>
+	</column>
+	<column name="cod_mut" not-null="true">
+		<type name="character" length="8"/>
+	</column>
+	<column name="cod_sys" not-null="true">
+		<type name="character" length="8"/>
+	</column>
+	<column name="cod_mod" not-null="true">
+		<type name="character" length="8"/>
+	</column>
+	<column name="nm_pco">
+		<type name="character varying" length="150"/>
+	</column>
+	<column name="dsc_pco">
+		<type name="character varying" length="500"/>
+	</column>
+	<column name="dt_ins_pco">
+		<type name="date"/>
+	</column>
+	<column name="dt_atu_pco">
+		<type name="date"/>
+	</column>
+	<constraint name="processo_pk" type="pk-constr" factor="100" table="public.processo">
+		<columns names="cod_pco" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="qr_ingresso_cod_qri_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="qr_ingresso">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="0" y="634.633"/>
+	<column name="cod_qri" not-null="true" default-value="nextval('qr_ingresso_cod_qri_seq'::regclass)">
+		<type name="integer"/>
+	</column>
+	<column name="cod_lte" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="cod_fun">
+		<type name="integer"/>
+	</column>
+	<column name="nr_qri">
+		<type name="character varying" length="20"/>
+	</column>
+	<column name="dt_ins_qri">
+		<type name="date"/>
+	</column>
+	<column name="dt_chk_qri">
+		<type name="date"/>
+	</column>
+	<column name="atv_qri">
+		<type name="boolean"/>
+	</column>
+	<constraint name="qr_ingresso_pk" type="pk-constr" factor="100" table="public.qr_ingresso">
+		<columns names="cod_qri" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="sys_modulo">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2844" y="46.3"/>
+	<column name="cod_mod" not-null="true">
+		<type name="character" length="8"/>
+	</column>
+	<column name="cod_sys" not-null="true">
+		<type name="character" length="8"/>
+	</column>
+	<column name="cod_mut" not-null="true">
+		<type name="character" length="8"/>
+	</column>
+	<column name="nm_mod">
+		<type name="character varying" length="150"/>
+	</column>
+	<column name="dsc_mod">
+		<type name="character varying" length="500"/>
+	</column>
+	<column name="dt_ins_mod">
+		<type name="date"/>
+	</column>
+	<column name="dt_atu_mod">
+		<type name="date"/>
+	</column>
+	<constraint name="sys_modulo_pk" type="pk-constr" factor="100" table="public.sys_modulo">
+		<columns names="cod_mod,cod_sys,cod_mut" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="sys_multe">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="3352.07" y="51.6572"/>
+	<column name="cod_mut" not-null="true">
+		<type name="character" length="8"/>
+	</column>
+	<column name="cod_sys" not-null="true">
+		<type name="character" length="8"/>
+	</column>
+	<column name="nm_mut">
+		<type name="character varying" length="150"/>
+	</column>
+	<column name="dsc_mut">
+		<type name="character varying" length="500"/>
+	</column>
+	<column name="dt_ins_mut">
+		<type name="date"/>
+	</column>
+	<column name="dt_atu_mut">
+		<type name="date"/>
+	</column>
+	<constraint name="sys_multe_pk" type="pk-constr" factor="100" table="public.sys_multe">
+		<columns names="cod_mut,cod_sys" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="systema">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="3354.15" y="305.943"/>
+	<column name="cod_sys" not-null="true">
+		<type name="character" length="8"/>
+	</column>
+	<column name="nm_sys">
+		<type name="character varying" length="150"/>
+	</column>
+	<column name="dsc_sys">
+		<type name="character varying" length="500"/>
+	</column>
+	<column name="dt_ins_sys">
+		<type name="date"/>
+	</column>
+	<column name="dt_atu_sys">
+		<type name="date"/>
+	</column>
+	<constraint name="systema_pk" type="pk-constr" factor="100" table="public.systema">
+		<columns names="cod_sys" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="usuario_cod_usu_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="usuario">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1407.04" y="552.062"/>
+	<column name="cod_usu" not-null="true" default-value="nextval('usuario_cod_usu_seq'::regclass)">
+		<type name="integer"/>
+	</column>
+	<column name="cod_end">
+		<type name="integer"/>
+	</column>
+	<column name="nm_usu" not-null="true">
+		<type name="character varying" length="600"/>
+	</column>
+	<column name="login_usu" not-null="true">
+		<type name="character varying" length="10"/>
+	</column>
+	<column name="senha_usu" not-null="true">
+		<type name="character varying" length="15"/>
+	</column>
+	<column name="email_usu">
+		<type name="character varying" length="150"/>
+	</column>
+	<column name="dt_ins_usu">
+		<type name="date"/>
+	</column>
+	<column name="dt_atu_usu">
+		<type name="date"/>
+	</column>
+	<column name="tip_usu">
+		<type name="character"/>
+	</column>
+	<column name="cpf_usu">
+		<type name="character varying" length="11"/>
+	</column>
+	<column name="cnpj_usu">
+		<type name="character varying" length="18"/>
+	</column>
+	<constraint name="usuario_pkey" type="pk-constr" factor="100" table="public.usuario">
+		<columns names="cod_usu" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="pfl_pco_acao">
+	<schema name="public"/>
+	<position x="2459.93" y="552"/>
+	<column name="cod_pfl">
+		<type name="character" length="8"/>
+	</column>
+	<column name="cod_pco">
+		<type name="character" length="8"/>
+	</column>
+	<column name="cod_aco">
+		<type name="character" length="5"/>
+	</column>
+</table>
+
+<table name="filial">
+	<schema name="public"/>
+	<position x="536.382" y="312.381"/>
+	<column name="cod_emp" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="cod_fil" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="cod_end">
+		<type name="integer"/>
+	</column>
+	<column name="tp_fil" not-null="true">
+		<type name="char"/>
+		<comment><![CDATA[M: Matriz F: Filial]]></comment>
+	</column>
+	<constraint name="pk_cod_fil" type="pk-constr" factor="100" table="public.filial">
+		<columns names="cod_emp,cod_fil" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="evento_cod_usu_fk" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.usuario" table="public.evento">
+	<columns names="cod_usu" ref-type="src-columns"/>
+	<columns names="cod_usu" ref-type="dst-columns"/>
+</constraint>
+<constraint name="funcionario_cod_end_fk" type="fk-constr"	 comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.endereco" table="public.funcionario">
+	<columns names="cod_end" ref-type="src-columns"/>
+	<columns names="cod_end" ref-type="dst-columns"/>
+</constraint>
+<constraint name="funcionario_emp_fil_fk" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.filial" table="public.funcionario">
+	<columns names="cod_emp,cod_fil" ref-type="src-columns"/>
+	<columns names="cod_emp,cod_fil" ref-type="dst-columns"/>
+</constraint>
+<constraint name="lote_cod_evt_fk" type="fk-constr"	 comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.evento" table="public.lote">
+	<columns names="cod_usu,cod_evt" ref-type="src-columns"/>
+	<columns names="cod_evt,cod_usu" ref-type="dst-columns"/>
+</constraint>
+<constraint name="perfil_processo_cod_pco_fk" type="fk-constr"	 comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.processo" table="public.perfil_processo">
+	<columns names="cod_pco" ref-type="src-columns"/>
+	<columns names="cod_pco" ref-type="dst-columns"/>
+</constraint>
+<constraint name="perfil_processo_cod_pfl_fk" type="fk-constr"	 comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.perfil" table="public.perfil_processo">
+	<columns names="cod_pfl" ref-type="src-columns"/>
+	<columns names="cod_pfl" ref-type="dst-columns"/>
+</constraint>
+<constraint name="perfil_usuario_cod_pfl_fk" type="fk-constr"	 comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.perfil" table="public.perfil_usuario">
+	<columns names="cod_pfl" ref-type="src-columns"/>
+	<columns names="cod_pfl" ref-type="dst-columns"/>
+</constraint>
+<constraint name="perfil_usuario_cod_usu_fk" type="fk-constr"	 comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.usuario" table="public.perfil_usuario">
+	<columns names="cod_usu" ref-type="src-columns"/>
+	<columns names="cod_usu" ref-type="dst-columns"/>
+</constraint>
+<constraint name="perfil_usuario_emp_fil_fk" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.filial" table="public.perfil_usuario">
+	<columns names="cod_emp,cof_fil" ref-type="src-columns"/>
+	<columns names="cod_emp,cod_fil" ref-type="dst-columns"/>
+</constraint>
+<constraint name="processo_cod_mod_fk" type="fk-constr"	 comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.sys_modulo" table="public.processo">
+	<columns names="cod_mut,cod_sys,cod_mod" ref-type="src-columns"/>
+	<columns names="cod_mod,cod_sys,cod_mut" ref-type="dst-columns"/>
+</constraint>
+<constraint name="qr_ingresso_cod_fun_fk" type="fk-constr"	 comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.funcionario" table="public.qr_ingresso">
+	<columns names="cod_fun" ref-type="src-columns"/>
+	<columns names="cod_fun" ref-type="dst-columns"/>
+</constraint>
+<constraint name="qr_ingresso_cod_lte_fk" type="fk-constr"	 comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.lote" table="public.qr_ingresso">
+	<columns names="cod_lte" ref-type="src-columns"/>
+	<columns names="cod_lte" ref-type="dst-columns"/>
+</constraint>
+<constraint name="sys_modulo_cod_sys_fk" type="fk-constr"	 comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.sys_multe" table="public.sys_modulo">
+	<columns names="cod_sys,cod_mut" ref-type="src-columns"/>
+	<columns names="cod_mut,cod_sys" ref-type="dst-columns"/>
+</constraint>
+<constraint name="sys_multe_cod_sys_fk" type="fk-constr"	 comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.systema" table="public.sys_multe">
+	<columns names="cod_sys" ref-type="src-columns"/>
+	<columns names="cod_sys" ref-type="dst-columns"/>
+</constraint>
+<constraint name="usuario_cod_end_fk" type="fk-constr"	 comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.endereco" table="public.usuario">
+	<columns names="cod_end" ref-type="src-columns"/>
+	<columns names="cod_end" ref-type="dst-columns"/>
+</constraint>
+<constraint name="perfil_processo_acao_fk" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.perfil_processo" table="public.pfl_pco_acao">
+	<columns names="cod_pfl,cod_pco" ref-type="src-columns"/>
+	<columns names="cod_pfl,cod_pco" ref-type="dst-columns"/>
+</constraint>
+<constraint name="aco_pfl_processo_fk" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.acao" table="public.pfl_pco_acao">
+	<columns names="cod_aco" ref-type="src-columns"/>
+	<columns names="cod_aco" ref-type="dst-columns"/>
+</constraint>
+<constraint name="fk_emp_filial" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.empresa" table="public.filial">
+	<columns names="cod_emp" ref-type="src-columns"/>
+	<columns names="cod_emp" ref-type="dst-columns"/>
+</constraint>
+<constraint name="fk_end_filial" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.endereco" table="public.filial">
+	<columns names="cod_end" ref-type="src-columns"/>
+	<columns names="cod_end" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_evento_usuario" type="relfk"
+	 src-table="public.evento"
+	 dst-table="public.usuario"
+	 src-required="true" dst-required="true"/>
+
+<relationship name="rel_funcionario_endereco" type="relfk"
+	 src-table="public.funcionario"
+	 dst-table="public.endereco"
+	 src-required="true" dst-required="true"/>
+
+<relationship name="rel_lote_evento" type="relfk"
+	 src-table="public.lote"
+	 dst-table="public.evento"
+	 src-required="true" dst-required="true">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="rel_pfl_pco_processo" type="relfk"
+	 src-table="public.perfil_processo"
+	 dst-table="public.processo"
+	 src-required="true" dst-required="true">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="rel_perfil_processo_perfil" type="relfk"
+	 src-table="public.perfil_processo"
+	 dst-table="public.perfil"
+	 src-required="true" dst-required="true"/>
+
+<relationship name="rel_perfil_usuario_perfil" type="relfk"
+	 src-table="public.perfil_usuario"
+	 dst-table="public.perfil"
+	 src-required="true" dst-required="true"/>
+
+<relationship name="rel_perfil_usuario_usuario" type="relfk"
+	 src-table="public.perfil_usuario"
+	 dst-table="public.usuario"
+	 src-required="true" dst-required="true"/>
+
+<relationship name="rel_processo_sys_modulo" type="relfk"
+	 src-table="public.processo"
+	 dst-table="public.sys_modulo"
+	 src-required="true" dst-required="true"/>
+
+<relationship name="rel_qr_ingresso_funcionario" type="relfk"
+	 src-table="public.qr_ingresso"
+	 dst-table="public.funcionario"
+	 src-required="true" dst-required="true"/>
+
+<relationship name="rel_qr_ingresso_lote" type="relfk"
+	 src-table="public.qr_ingresso"
+	 dst-table="public.lote"
+	 src-required="true" dst-required="true">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="rel_sys_modulo_sys_multe" type="relfk"
+	 src-table="public.sys_modulo"
+	 dst-table="public.sys_multe"
+	 src-required="true" dst-required="true"/>
+
+<relationship name="rel_sys_multe_systema" type="relfk"
+	 src-table="public.sys_multe"
+	 dst-table="public.systema"
+	 src-required="true" dst-required="true"/>
+
+<relationship name="rel_usuario_endereco" type="relfk"
+	 src-table="public.usuario"
+	 dst-table="public.endereco"
+	 src-required="true" dst-required="true"/>
+
+<relationship name="rel_pfl_pco_acao" type="relfk"
+	 src-table="public.pfl_pco_acao"
+	 dst-table="public.perfil_processo"
+	 src-required="true" dst-required="true">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="rel_aco_pfl_processo" type="relfk"
+	 src-table="public.pfl_pco_acao"
+	 dst-table="public.acao"
+	 src-required="true" dst-required="true">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="rel_filial_empresa" type="relfk"
+	 src-table="public.filial"
+	 dst-table="public.empresa"
+	 src-required="true" dst-required="true">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="rel_filial_endereco" type="relfk"
+	 src-table="public.filial"
+	 dst-table="public.endereco"
+	 src-required="true" dst-required="true"/>
+
+<relationship name="rel_perfil_usuario_filial" type="relfk"
+	 src-table="public.perfil_usuario"
+	 dst-table="public.filial"
+	 src-required="true" dst-required="true"/>
+
+<relationship name="rel_funcionario_filial" type="relfk"
+	 src-table="public.funcionario"
+	 dst-table="public.filial"
+	 src-required="true" dst-required="true"/>
+
+</dbmodel>

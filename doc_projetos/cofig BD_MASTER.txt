@@ -1,0 +1,8 @@
+URL:jdbc:postgresql://localhost:5432/BD_MASTER
+portNumber:5432
+serverName:localhost
+databaseName:MASTER
+driverClass:org.postgresql.Driver
+
+usuario:postgres
+senha:F@pp9173

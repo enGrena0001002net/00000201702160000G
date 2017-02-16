@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">  
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="http://#{request.serverName}:#{request.serverPort}/Sistema/layout/css/formPadrao.css" rel="stylesheet" type="text/css" />
+    <link href="http://#{request.serverName}:#{request.serverPort}/Sistema/layout/css/cssLayout.css" rel="stylesheet" type="text/css" />
+    <!--<link href="http://#{request.serverName}:#{request.serverPort}/sisOcorrencias/layout/css/default.css" rel="stylesheet" type="text/css" />-->
+    <link href="http://#{request.serverName}:#{request.serverPort}/Sistema/layout/prime/blue/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
+
+    <h:form>
+        <p:menubar>
+            <p:menuitem action="Index.xhtml" icon="ui-icon-home"  ajax="false"/>
+
+            <p:submenu label="Segurança" icon="ui-icon-document">
+
+                <p:menuitem value="Empresa"  action="/seguranca/empresaCadastro.xhtml" ajax="false" />
+                <p:menuitem value="Funcionario" action="/seguranca/funcionarioCadastro.xhtml"  ajax="false" />
+                <p:separator/>       
+                <p:menuitem value="Systema" action="/seguranca/systemaCadastro.xhtml"  ajax="false" />
+                <p:menuitem value="Multe" action="/seguranca/sysMulteCadastro.xhtml"  ajax="false" />
+                <p:menuitem value="Ação" action="/seguranca/acaoCadastro.xhtml"  ajax="false" />
+                <p:menuitem value="Perfil" action="/seguranca/perfilCadastro.xhtml"  ajax="false" />
+
+
+
+            </p:submenu>
+
+            <p:submenu label="Ocorrência" icon="ui-icon-pencil">
+                <p:menuitem value="Consulta" action="Ocorrencia.xhtml" ajax="false"  />
+
+            </p:submenu>
+        </p:menubar>
+
+    </h:form>
+    <br/>
+    <br/>
+    <br/>
+</ui:composition>

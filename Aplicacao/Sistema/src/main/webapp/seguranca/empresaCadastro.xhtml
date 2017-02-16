@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <ui:include src="../layout/includ/cssInclud.xhtml"/> 
+        <title>Segurança</title>
+    </h:head>
+    <h:body>
+
+
+        <h:form id="frmTabela">
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+            <p:panel header="Empresa - Cadastro">
+
+
+                <p:commandButton value="Pesquisar" actionListener="#{empresaCadastroV.pesquisarEmresa()}" update="@form" />
+                <p:commandButton value="Limpar" actionListener="#{empresaCadastroV.cancelarPesquisa()}" update="@form" />
+                <p:commandButton value="Novo" actionListener="#{empresaCadastroV.novo()}" update=":frmCadastro" onclick="PF('dlCadastro').show();" />
+
+            </p:panel>
+<br/>
+<br/>
+            <p:fieldset legend="Empresa" style="margin-bottom:20px">
+                <p:dataTable value="#{empresaCadastroV.listEmpresa}" var="item">
+                    <p:column headerText="Cod.">
+                        <h:outputLabel value="#{item.codEmp}"/>
+
+                    </p:column>
+                    <p:column headerText="Nome">
+                        <h:outputLabel value="#{item.nmFanEmp}"/>
+
+                    </p:column>
+                    <p:column headerText="CNPJ">
+                        <h:outputLabel value="#{item.nrCnpjEmp}"/>
+
+                    </p:column>
+                    <p:column headerText="Desc.">
+                        <h:outputLabel value="#{item.dscEmp}"/>
+
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="Alterar" actionListener="#{empresaCadastroV.setFrmEmpresa(item)}" update="@form  :frmCadastro" onclick="PF('dlCadastro').show();" />
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="Adicionar Endereço" actionListener="#{empresaCadastroV.recebeEndereco(item)}" update="@form :frmCadastro2" onclick="PF('dlCadastro2').show();" />
+                    </p:column>
+
+                    <p:column>
+                        <p:column style="width:16px">
+                            <p:rowToggler />
+                        </p:column>
+
+                    </p:column>
+                    <p:rowExpansion>
+                        <ui:repeat value="#{item.funcionarioList}" var="fun" >
+
+                            <h:outputLabel value="#{fun.nmFun}"/>
+                            <p:separator/>
+
+                        </ui:repeat>
+
+
+
+
+                    </p:rowExpansion>
+
+                </p:dataTable>
+            </p:fieldset>
+
+
+        </h:form>
+        <p:dialog widgetVar="dlCadastro"  header="Cadasto/Edit" modal="true" >
+
+            <h:form id="frmCadastro" >
+                <p:panel >
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Nome Fantasia:"/>
+                        <p:inputText value="#{empresaCadastroV.frmEmpresa.nmFanEmp}" rendered="true" requiredMessage="Nessesario prencher campo Nome Fantasia " />
+                        <h:outputLabel value="Razão Social:"/>
+                        <p:inputText value="#{empresaCadastroV.frmEmpresa.nmRzSocialEmp}" rendered="true" requiredMessage="Nessesario prencher campo Razão Social " />
+                        <h:outputLabel value="CNPJ"/>
+                        <p:inputText value="#{empresaCadastroV.frmEmpresa.nrCnpjEmp}" rendered="true" requiredMessage="Nessesario prencher campo CNPJ " />
+                        <h:outputLabel value="Descrição:"/>
+                        <p:inputTextarea value="#{empresaCadastroV.frmEmpresa.dscEmp}"  />
+
+                    </h:panelGrid>
+                    <p:separator/>
+                    <p:commandButton value="Salvar" actionListener="#{empresaCadastroV.salvarEmpresa()}" update="@form :frmTabela"  onclick="PF('dlCadastro').hide();" />
+                    <p:commandButton value="Cancelar" actionListener="#{empresaCadastroV.limparForm()}" update="@form :frmTabela" onclick="PF('dlCadastro').hide();" />
+                </p:panel>
+
+            </h:form>
+        </p:dialog>
+
+        <p:dialog widgetVar="dlCadastro2"  header="Cadasto/Edit" modal="true" >
+
+            <h:form id="frmCadastro2" >
+                <p:panel >
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Empresa:"/>
+                        <h:outputLabel value="#{empresaCadastroV.frmEmpresa.nmFanEmp}"/>
+                        <h:outputLabel value="CEP:"/>
+                        <p:inputText value="#{empresaCadastroV.frmEndereco.cepEnd}"  />
+                        <h:outputLabel value="UF:"/>
+                        <p:inputText value="#{empresaCadastroV.frmEndereco.ufEnd}"  />
+                        <h:outputLabel value="Cidade:"/>
+                        <p:inputText value="#{empresaCadastroV.frmEndereco.cidEnd}"  />
+                        <h:outputLabel value="Rua:"/>
+                        <p:inputText value="#{empresaCadastroV.frmEndereco.ruaEnd}"  />
+                        <h:outputLabel value="Nº:"/>
+                        <p:inputTextarea value="#{empresaCadastroV.frmEndereco.nrEnd}"  />
+                        <h:outputLabel value="Complemento:"/>
+                        <p:inputText value="#{empresaCadastroV.frmEndereco.cmpEnd}"  />
+
+
+
+
+                    </h:panelGrid>
+                    <p:separator/>
+                    <p:commandButton value="Salvar" actionListener="#{empresaCadastroV.salvarEndereco()}" update="@form :frmTabela" onclick="PF('dlCadastro2').hide();" />
+                    <p:commandButton value="Cancelar" actionListener="#{empresaCadastroV.limparForm()}" update="@form :frmTabela"  onclick="PF('dlCadastro2').hide();"/>
+                </p:panel>
+
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
+

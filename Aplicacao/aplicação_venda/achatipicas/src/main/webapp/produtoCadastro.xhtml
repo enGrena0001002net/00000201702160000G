@@ -1,0 +1,176 @@
+<!--<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <ui:include src="layout/includ/cssInclud.xhtml"/>
+        <title>Consulta de Produto</title>
+    </h:head>
+    <h:body>-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">  
+        <h:form id="frmTabela">
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+            <p:panel header="Produto - Consulta">
+                <p:panel>
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="Loja:"/>
+                        <p:outputLabel value="#{produtoCadastroV.frmLoja.lojaNome}"/>
+                        <p:outputLabel value="Fone:"/>
+                        <p:outputLabel value="#{produtoCadastroV.frmLoja.lojaFone}"/>
+                    </h:panelGrid>
+                </p:panel>
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="Nome:"/>
+                    <p:inputText value="#{produtoCadastroV.produtoNome}" converter="toUpperCaseConverter">
+                        <f:ajax event="blur" render="@this" />
+                    </p:inputText>
+                    <p:outputLabel value="Tipo:"/>
+                    <p:selectOneMenu value="#{produtoCadastroV.produtoTpCod}">
+                        <f:selectItem itemValue="#{null}" itemLabel="....."/>
+                        <f:selectItems value="#{produtoCadastroV.listarTipoProduto()}" var="tp" itemLabel="#{tp.produtoTpNome}"
+                                       itemValue="#{tp}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Ativo:"/>
+                    <p:selectOneRadio  value="#{produtoCadastroV.produtoAtivo}">
+                        <f:selectItem itemLabel="Ambos" itemValue="#{null}"/>
+                        <f:selectItem itemLabel="Sim" itemValue="#{true}"/>
+                        <f:selectItem itemLabel="Não" itemValue="#{false}"/>
+
+                    </p:selectOneRadio>
+                </h:panelGrid>
+
+
+                <p:separator/>
+
+                <p:commandButton value="Pesquisar" actionListener="#{produtoCadastroV.pesquisar()}"  update="@form" icon="ui-icon-search" />
+                <p:commandButton value="Limpar" actionListener="#{produtoCadastroV.limparPesquisa()}"  update="@form" icon="ui-icon-cancel" />
+
+                <p:commandButton value="Novo" style="float: right;" actionListener="#{produtoCadastroV.novo()}" update=":frmCadastro" onclick="PF('dlCadastro').show();" icon="ui-icon-document" />
+
+                <p:commandButton value="Voltar" style="float: right;" action="lojaCadastro.xhtml" ajax="false"  icon="ui-icon-arrowreturnthick-1-w" />
+
+
+            </p:panel>
+            <br/>
+
+            <p:fieldset legend="Lista de Produto" style="margin-bottom:20px">
+
+
+                <p:dataTable value="#{produtoCadastroV.listarProduto}" var="item" rows="10"
+                             paginator="true" paginatorPosition="bottom"  >
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Código"/>
+                        </f:facet>
+                        <h:outputText value="#{item.produtoPK.produtoCod}"/>             
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nome"/>
+                        </f:facet>
+                        <h:outputText value="#{ item.produtoNome}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Descrição"/>
+                        </f:facet>
+                        <h:outputText value="#{item.produtoDescr}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Valor"/>
+                        </f:facet>
+                        <h:outputText value="#{item.produtoVlr}">
+                            <f:convertNumber pattern="#0.00" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Loja"/>
+                        </f:facet>
+                        <h:outputText value="#{item.loja.lojaNome}">
+
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Tipo"/>
+                        </f:facet>
+                        <h:outputText value="#{item.produtoTpCod.produtoTpNome}">
+
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Ativo"/>
+                        </f:facet>
+                        <h:outputText value="#{utilitarios.retornaSimNao( item.produtoAtivo)}">
+
+                        </h:outputText>
+                    </p:column>
+                    <p:column style="width:80px;" > 
+                        <p:commandButton value="Ativar" update="@form" actionListener="#{produtoCadastroV.ativar(item)}" rendered="#{item.produtoAtivo==false}" icon="ui-icon-unlocked" />
+                        <p:commandButton value="Desativar" update="@form" actionListener="#{produtoCadastroV.desativar(item)}" rendered="#{item.produtoAtivo==true}"  icon="ui-icon-locked" />
+                    </p:column >
+                    <p:column  style="width:70px;">
+                        <p:commandButton value="Alterar" update="@form  :frmCadastro" actionListener="#{produtoCadastroV.receberProduto(item)}" onclick="PF('dlCadastro').show();" icon="ui-icon-pencil" />
+                    </p:column>
+                </p:dataTable>
+
+
+
+
+
+            </p:fieldset>
+        </h:form>
+        <p:dialog widgetVar="dlCadastro"  header="Cadasto/Edit- Produto" modal="true" >
+
+            <h:form id="frmCadastro" >
+                <p:panel >
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Código:"/>
+                        <p:inputText value="#{produtoCadastroV.frmProduto.produtoPK.produtoCod}" disabled="true" />
+                        <h:outputLabel value="Nome:"/>
+                        <p:inputText value="#{produtoCadastroV.frmProduto.produtoNome}"  required="true" requiredMessage="Nessesário prencher campo  Nome  " converter="toUpperCaseConverter">
+                            <f:ajax event="blur" render="@this" />
+                        </p:inputText>
+                        <h:outputLabel value="Descrição:"/>
+                        <p:inputTextarea value="#{produtoCadastroV.frmProduto.produtoDescr}"  />
+                        <h:outputLabel value="Valor:"/>
+                        <h:panelGroup>
+                        <p:inputText value="#{produtoCadastroV.frmProduto.produtoVlr}"  />
+                        <h:outputLabel value="ex:10.01"/>
+                        </h:panelGroup>
+                        <h:outputLabel value="Tipo:"/>
+                        <p:selectOneMenu value="#{produtoCadastroV.frmProduto.produtoTpCod}">
+                            <f:selectItem itemValue="#{null}" itemLabel="....."/>
+                            <f:selectItems value="#{produtoCadastroV.listarTipoProduto()}" var="tp" itemLabel="#{tp.produtoTpNome}"
+                                           itemValue="#{tp}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <p:separator/>
+                    <p:commandButton value="Salvar" actionListener="#{produtoCadastroV.salvar()}" update="@form :frmTabela"  onclick="PF('dlCadastro').hide();" icon="ui-icon-disk"  />
+                    <p:commandButton value="Cancelar" actionListener="#{produtoCadastroV.receberProduto(null)}" immediate="true" update="@form :frmTabela" onclick="PF('dlCadastro').hide();" icon="ui-icon-circle-close"  />
+                </p:panel>
+
+            </h:form>
+        </p:dialog>
+
+
+
+<!--    </h:body>
+
+
+</html>-->
+</ui:composition>
+
+

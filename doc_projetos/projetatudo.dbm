@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel>
+<schema name="public" protected="true" rect-visible="true" fill-color="#0000ff" sql-disabled="true">
+</schema>
+
+<database name="projetatudo" encoding="UTF8" lc-collate="Portuguese_Brazil" lc-ctype="Portuguese_Brazil">
+	<role name="postgres"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<table name="projeto_master">
+	<schema name="public"/>
+	<position x="464" y="143"/>
+	<column name="cod_pro" not-null="true">
+		<type name="bigserial"/>
+	</column>
+	<column name="nm_pro" not-null="true">
+		<type name="character varying" length="250"/>
+	</column>
+	<column name="pro_dt_ins">
+		<type name="date"/>
+	</column>
+	<column name="sit_pro">
+		<type name="varchar" length="15"/>
+		<comment><![CDATA[cod_tp_situ / nr_tp_situ para situação]]></comment>
+	</column>
+	<constraint name="cod_pro" type="pk-constr" factor="10" table="public.projeto_master">
+		<columns names="cod_pro" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="usuario">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1080" y="140"/>
+	<column name="cod_usu" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="cod_end">
+		<type name="integer"/>
+	</column>
+	<column name="cod_emp" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="nm_usu" not-null="true">
+		<type name="character varying" length="600"/>
+	</column>
+	<column name="login_usu" not-null="true">
+		<type name="character varying" length="10"/>
+	</column>
+	<column name="senha_usu" not-null="true">
+		<type name="character varying" length="15"/>
+	</column>
+	<column name="email_usu">
+		<type name="character varying" length="150"/>
+	</column>
+	<column name="dt_ins_usu">
+		<type name="date"/>
+	</column>
+	<column name="dt_atu_usu">
+		<type name="date"/>
+	</column>
+	<column name="tip_usu">
+		<type name="character"/>
+	</column>
+	<column name="cpf_usu">
+		<type name="character varying" length="11"/>
+	</column>
+	<column name="cnpj_usu">
+		<type name="character varying" length="18"/>
+	</column>
+	<column name="cod_fil">
+		<type name="integer"/>
+	</column>
+	<constraint name="usuario_pkey" type="pk-constr" factor="100" table="public.usuario">
+		<columns names="cod_usu" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="usuario_pro_master" type="relnn"
+	 src-col-pattern="{sc}" dst-col-pattern="{sc}"
+	 pk-pattern="{gt}_pk" uq-pattern="{gt}_uq"
+	 src-fk-pattern="{st}_fk" dst-fk-pattern="{dt}_fk"
+	 src-table="public.usuario"
+	 dst-table="public.projeto_master"
+	 src-required="false" dst-required="false"	 table-name="usuario_pro_master">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+	<column name="pro_dt_atu">
+		<type name="date"/>
+	</column>
+	<column name="vl_qualifica">
+		<type name="decimal"/>
+	</column>
+</relationship>
+
+<table name="pro_topico">
+	<schema name="public"/>
+	<position x="466" y="476"/>
+	<column name="ds_obj">
+		<type name="character varying" length="550"/>
+	</column>
+	<column name="in_img">
+		<type name="bytea"/>
+	</column>
+	<column name="cod_topico" not-null="true">
+		<type name="bigint"/>
+	</column>
+	<column name="nm_topico" not-null="true">
+		<type name="character varying" length="250"/>
+	</column>
+	<constraint name="topico_pk" type="pk-constr" factor="100" table="public.pro_topico">
+		<columns names="cod_topico" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="projeto_master_topico" type="rel1n"
+	 src-col-pattern="{sc}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 col-indexes="0" constr-indexes="4294967295,1"
+	 src-table="public.projeto_master"
+	 dst-table="public.pro_topico"
+	 src-required="false" dst-required="false">
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+<table name="servico">
+	<schema name="public"/>
+	<position x="1114" y="494"/>
+	<column name="cod_serv" not-null="true">
+		<type name="bigint"/>
+	</column>
+</table>
+
+<table name="servico_tipo">
+	<schema name="public"/>
+	<position x="1093" y="556"/>
+	<column name="cod_tp_serv" not-null="true">
+		<type name="bigint"/>
+	</column>
+	<constraint name="tp_serv_pk" type="pk-constr" factor="10" table="public.servico_tipo">
+		<columns names="cod_tp_serv" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="situacoes">
+	<schema name="public"/>
+	<position x="10" y="505"/>
+	<column name="ds_situ" not-null="true">
+		<type name="character varying" length="250"/>
+	</column>
+	<column name="ds_obj_situ">
+		<type name="varchar" length="500"/>
+	</column>
+	<column name="nr_tp_situ" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<constraint name="tp_pk" type="pk-constr" factor="100" table="public.situacoes">
+		<columns names="nr_tp_situ" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tipo_situacao">
+	<schema name="public"/>
+	<comment><![CDATA[pai da tipos]]></comment>
+	<position x="35" y="294"/>
+	<column name="cod_tp_situ" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="ds_tp_situ">
+		<type name="varchar" length="250"/>
+	</column>
+	<constraint name="setor_pk" type="pk-constr" factor="10" table="public.tipo_situacao">
+		<columns names="cod_tp_situ" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="setor_tipos" type="rel1n"
+	 src-col-pattern="{sc}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 col-indexes="0" constr-indexes="4294967295,1"
+	 src-table="public.tipo_situacao"
+	 dst-table="public.situacoes"
+	 src-required="false" dst-required="false">
+	<special-pk-cols indexes="0"/>
+</relationship>
+
+</dbmodel>

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+
+
+        <title>Facelet Title</title>
+
+
+    </h:head>
+
+    <h:body>
+
+        <div id="divPrincipal"  style="display:#{loginMB.usuarioValido!=null?'block':'none'}"  >
+            
+                <h:panelGroup>
+                    <p:outputLabel value="Usuário: " style="font-weight: bolder;"/>
+                    <p:outputLabel value="#{loginMB.usuarioValido.usuarioNome}"/>
+                </h:panelGroup>
+                <div style="margin-right: 5px; position: relative; float: right;">
+
+                    <h:outputText value="Tempo restante de sessão: "/>
+
+                    <p:inputText id="contadorSessao" size="10" disabled="true" readonly="true"  >
+
+
+                    </p:inputText>
+
+
+                </div>
+            
+            <br/>
+            <br/>
+            <ui:include src="layout/includ/cssInclud.xhtml"/>
+            <br/>
+            <br/>
+            <br/>
+
+
+            <div id="messages" style="display: block;">
+                <p:ajaxStatus style="display:none;margin-bottom:2em;height:24px;">
+                    <f:facet name="start">
+                        <h:outputLabel value="Carregando..."/>
+                        <p:graphicImage url="/resources/img/loading.gif" />
+                    </f:facet>
+
+
+                </p:ajaxStatus>
+
+                <p:ajaxStatus oncomplete="resetaContador()" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <h:outputLabel value="Carregando..." />
+                    <p:graphicImage url="/resources/img/loading.gif" />
+                </p:dialog>
+            </div>
+            
+            <ui:include  src="#{loginMB.pagina}"/>
+            
+        </div>
+
+
+
+    </h:body>
+</html>
+
+
+

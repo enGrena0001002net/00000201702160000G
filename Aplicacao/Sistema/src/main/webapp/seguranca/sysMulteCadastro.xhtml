@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <ui:include src="../layout/includ/cssInclud.xhtml"/>
+        <title>Segurança</title>
+    </h:head>
+    <h:body>
+
+
+        <h:form id="frmTabela">
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+            <p:panel header="SYS MULT - Cadastro">
+
+
+                <p:commandButton value="Pesquisar" actionListener="#{sysMulteCadastroV.pesquisarNoGrid()}" update="@form" icon="ui-icon-search" />
+                <p:commandButton value="Limpar" actionListener="#{sysMulteCadastroV.cancelarPesquisa()}" update="@form" icon="ui-icon-cancel" />
+                <p:commandButton value="Novo" actionListener="#{sysMulteCadastroV.novo()}" update=":frmCadastro" onclick="PF('dlCadastro').show();"  icon="ui-icon-document" />
+
+            </p:panel>
+            <br/>
+            <br/>
+            <p:fieldset legend="Sys. Mult." style="margin-bottom:20px">
+                <p:dataTable value="#{sysMulteCadastroV.listSysMulte}" var="item">
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Cod."/>
+                        </f:facet>
+                        <h:outputText value="#{item.sysMultePK.codMut}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nome"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nmMut}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Descrição"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dscMut}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Systema"/>
+                        </f:facet>
+                        <h:outputText value="#{item.systema.nmSys}"/>
+                    </p:column>
+
+
+                    <p:column>
+                        <p:commandButton icon="ui-icon-pencil" value="Alterar" actionListener="#{sysMulteCadastroV.recebe(item)}" update="@form  :frmCadastro" onclick="PF('dlCadastro').show();" />
+                    </p:column>
+                    <p:column>
+                        <p:commandButton icon="ui-icon-gear" value="Modulos" actionListener="#{sysMulteCadastroV.recebe(item)}" update="@form "  />
+                    </p:column>
+                    <p:column>
+                        <p:commandButton icon="ui-icon-plusthick" value="Modulos" actionListener="#{sysMulteCadastroV.novoModulo(item)}" update="@form  :frmCadastro2" onclick="PF('dlCadastro2').show();"   />
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+            <br/>
+            <br/>
+            <p:fieldset legend="Modulo" style="margin-bottom:20px">
+                <p:dataTable value="#{sysMulteCadastroV.listSysModulo}" var="modulo" >
+                
+                    <p:column headerText="Cod.">
+                        <h:outputLabel value="#{modulo.sysModuloPK.codMod}"/>
+                    </p:column>
+                    <p:column headerText="Nome">
+                        <h:outputLabel value="#{modulo.nmMod}"/>
+                    </p:column>
+                    <p:column headerText="Descrição">
+                        <h:outputLabel value="#{modulo.dscMod}"/>
+                    </p:column>
+
+                    <p:column>
+                        <p:commandButton icon="ui-icon-pencil" value="Alterar" actionListener="#{sysMulteCadastroV.recebeModulo(modulo)}" update="@form  :frmCadastro2" onclick="PF('dlCadastro2').show();" />
+                    </p:column>
+                    <p:column>
+                        <p:commandButton icon="ui-icon-arrow-1-e" value="Processos" actionListener="#{sysMulteCadastroV.recebeModulo(modulo)}" action="processoCadastro.xhtml"  ajax="false" />
+                    </p:column>
+
+                </p:dataTable>
+            </p:fieldset>
+
+
+
+
+
+
+
+        </h:form>
+        <p:dialog widgetVar="dlCadastro"  header="Cadasto/Edit" modal="true" >
+
+            <h:form id="frmCadastro" >
+                <p:panel >
+
+
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="CodMut:" for="codMut" />
+                        <p:inputText id="codMut" disabled="#{sysMulteCadastroV.frmSysMultePK.codMut.trim().length()>0}"  value="#{sysMulteCadastroV.frmSysMultePK.codMut}" title="CodMut" required="true" requiredMessage="The CodMut field is required."/>
+                        <p:outputLabel value="NmMut:" for="nmMut" />
+                        <p:inputText id="nmMut" value="#{sysMulteCadastroV.frmSysMulte.nmMut}" title="NmMut" />
+                        <p:outputLabel value="DscMut:" for="dscMut" />
+                        <p:inputTextarea id="dscMut" value="#{sysMulteCadastroV.frmSysMulte.dscMut}" title="DscMut" />
+                        <p:outputLabel value="Systema:" for="systema" />
+                        <p:selectOneMenu id="systema" value="#{sysMulteCadastroV.frmSystema}" required="true" requiredMessage="The Systema field is required.">
+                            <!-- TODO: update below reference to list of available items-->
+                            <f:selectItems value="#{sysMulteCadastroV.listSystema}" var="sytema" 
+                                           itemLabel="#{sytema.nmSys}"     itemValue="#{sytema}" />
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <p:separator/>
+                    <p:commandButton value="Salvar" actionListener="#{sysMulteCadastroV.salvarSysMulte()}" update="@form :frmTabela"  icon="ui-icon-disk" onclick="PF('dlCadastro').hide();"  />
+
+                    <p:commandButton immediate="true" value="Cancelar" actionListener="#{sysMulteCadastroV.limparForm()}" update="@form :frmTabela"  icon="ui-icon-circle-close"  onclick="PF('dlCadastro').hide();" />
+                </p:panel>
+
+            </h:form>
+        </p:dialog>
+
+        <p:dialog widgetVar="dlCadastro2"  header="Cadasto/Edit" modal="true" >
+
+            <h:form id="frmCadastro2" >
+                <p:panel >
+
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="Cod.:" for="sysModuloPK" />
+                        <p:inputText id="sysModuloPK" disabled="#{sysMulteCadastroV.frmModuloPK.codMod.trim().length()>0}" value="#{sysMulteCadastroV.frmModuloPK.codMod}" title="CodMod" required="true" requiredMessage="The CodMod field is required."/>
+                        <p:outputLabel value="Nome:" for="nmMod" />
+                        <p:inputText id="nmMod" value="#{sysMulteCadastroV.frmModulo.nmMod}" title="NmMod" />
+                        <p:outputLabel value="Descrição:" for="dscMod" />
+                        <p:inputTextarea id="dscMod" value="#{sysMulteCadastroV.frmModulo.dscMod}" title="DscMod" />
+
+
+                    </h:panelGrid>
+                    <p:separator/>
+                    <p:commandButton value="Salvar" actionListener="#{sysMulteCadastroV.salvarModulo()}" update="@form :frmTabela"  icon="ui-icon-disk" onclick="PF('dlCadastro2').hide();"  />
+
+                    <p:commandButton immediate="true" value="Cancelar" actionListener="#{sysMulteCadastroV.limparFrmModulo()}" update="@form :frmTabela"  icon="ui-icon-circle-close"  onclick="PF('dlCadastro2').hide();" />
+                </p:panel>
+
+            </h:form>
+        </p:dialog>
+
+
+
+    </h:body>
+</html>
+
